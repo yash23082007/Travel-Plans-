@@ -4,6 +4,10 @@ updates:
     directory: "/client"
     schedule:
       interval: "weekly"
+    groups:
+      mui:
+        patterns:
+          - "@mui/*"
   - package-ecosystem: "npm"
     directory: "/server"
     schedule:
