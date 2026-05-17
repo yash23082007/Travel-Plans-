@@ -33,8 +33,8 @@ exports.register = async (req, res, next) => {
       return res.status(400).json({ msg: "User already exists" });
     }
 
-    // Create new user
-    user = new User({ name, email, password });
+    // Create new user with normalized single-spaced name
+    user = new User({ name: name.trim().replace(/\s+/g, " "), email, password });
     await user.save();
 
     // Create JWT token

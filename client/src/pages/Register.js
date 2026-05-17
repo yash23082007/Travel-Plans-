@@ -129,7 +129,7 @@ const Register = () => {
     e.preventDefault();
     if (activeStep === steps.length - 1) {
       const payload = {
-        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.replace(/\s+/g, " "),
         email: formData.email,
         password: formData.password,
       };
