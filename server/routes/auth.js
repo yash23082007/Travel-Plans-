@@ -38,4 +38,14 @@ router.post("/forgot-password", authController.forgotPassword);
 // @access  Public
 router.put("/reset-password/:token", authController.resetPassword);
 
+// @route   POST api/auth/verify-otp
+// @desc    Verify email with OTP
+// @access  Public
+router.post("/verify-otp", authController.verifyOtp);
+
+// @route   POST api/auth/resend-otp
+// @desc    Resend email verification OTP
+// @access  Public
+router.post("/resend-otp", authController.resendOtp);
+
 module.exports = router;
