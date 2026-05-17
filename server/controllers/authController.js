@@ -12,6 +12,19 @@ exports.register = async (req, res, next) => {
       return res.status(400).json({ msg: "Please provide all fields" });
     }
 
+    if (!/^[A-Za-z\s]+$/.test(name) || name.trim().length < 2) {
+      return res.status(400).json({ msg: "Name must be at least 2 characters and contain only letters" });
+    }
+
+    if (!/^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return res.status(400).json({ msg: "Please enter a valid email" });
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({ msg: "Password must be at least 8 characters and atleast contain 1 uppercase, 1 lowercase, 1 number, and 1 special character" });
+    }
+
     // Check if user already exists
     let user = await User.findOne({ email });
     if (user) {
@@ -48,6 +61,10 @@ exports.login = async (req, res, next) => {
 
     if (!email || !password) {
       return res.status(400).json({ msg: "Please provide email and password" });
+    }
+
+    if (!/^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return res.status(400).json({ msg: "Please enter a valid email" });
     }
 
     // Check if user exists
@@ -115,7 +132,6 @@ exports.updateProfile = async (req, res, next) => {
 exports.changePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
-
     const user = await User.findById(req.user.id);
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
