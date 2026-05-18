@@ -42,6 +42,7 @@ import {
   getExpenseSummary,
 } from "../../redux/actions/expenseActions";
 import { getTrips } from "../../redux/actions/tripActions";
+import PrimaryButton from "../../components/PrimaryButton";
 
 const EXPENSE_CATEGORIES = [
   "Accommodation",
@@ -132,7 +133,6 @@ const ExpensesView = () => {
       date: new Date().toISOString().split("T")[0],
       currency: "INR",
     });
-    // refresh summary
     setTimeout(() => dispatch(getExpenseSummary(activeTripId)), 500);
   };
 
@@ -191,16 +191,14 @@ const ExpensesView = () => {
               Export
             </Button>
           </Tooltip>
-          <Button
-            variant="contained"
-            color="primary"
+          <PrimaryButton
             startIcon={<AddIcon />}
             onClick={() => setOpen(true)}
             disabled={!activeTripId}
             sx={{ borderRadius: 3 }}
           >
             Add Expense
-          </Button>
+          </PrimaryButton>
         </Box>
       </Box>
 
@@ -466,17 +464,10 @@ const ExpensesView = () => {
       </Grid>
 
       {/* Add Expense Dialog */}
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ fontWeight: 700 }}>Add Expense</DialogTitle>
         <DialogContent>
-          <Box
-            sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}
-          >
+          <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
@@ -493,9 +484,7 @@ const ExpensesView = () => {
                   select
                   label="Currency"
                   value={form.currency}
-                  onChange={(e) =>
-                    setForm({ ...form, currency: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, currency: e.target.value })}
                 >
                   {["INR", "USD", "EUR", "GBP"].map((c) => (
                     <MenuItem key={c} value={c}>
@@ -522,9 +511,7 @@ const ExpensesView = () => {
               fullWidth
               label="Description / Note"
               value={form.description}
-              onChange={(e) =>
-                setForm({ ...form, description: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
             />
             <TextField
               fullWidth
@@ -538,9 +525,9 @@ const ExpensesView = () => {
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained" sx={{ px: 3 }}>
+          <PrimaryButton onClick={handleSubmit} sx={{ px: 3 }}>
             Save
-          </Button>
+          </PrimaryButton>
         </DialogActions>
       </Dialog>
     </Box>

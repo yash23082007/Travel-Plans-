@@ -23,6 +23,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LoginIcon from "@mui/icons-material/Login";
+import PrimaryButton from "../components/PrimaryButton";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -94,13 +95,7 @@ const Login = () => {
               backdropFilter: "blur(2px)",
             }}
           />
-          <Box
-            sx={{
-              position: "relative",
-              p: 6,
-              color: "white",
-            }}
-          >
+          <Box sx={{ position: "relative", p: 6, color: "white" }}>
             <Typography
               variant="h3"
               component="h1"
@@ -114,28 +109,13 @@ const Login = () => {
             </Typography>
             <Box sx={{ display: "flex", gap: 1, mb: 4 }}>
               <Box
-                sx={{
-                  width: 12,
-                  height: 12,
-                  bgcolor: "white",
-                  borderRadius: "50%",
-                }}
+                sx={{ width: 12, height: 12, bgcolor: "white", borderRadius: "50%" }}
               />
               <Box
-                sx={{
-                  width: 12,
-                  height: 12,
-                  bgcolor: "rgba(255, 255, 255, 0.5)",
-                  borderRadius: "50%",
-                }}
+                sx={{ width: 12, height: 12, bgcolor: "rgba(255, 255, 255, 0.5)", borderRadius: "50%" }}
               />
               <Box
-                sx={{
-                  width: 12,
-                  height: 12,
-                  bgcolor: "rgba(255, 255, 255, 0.5)",
-                  borderRadius: "50%",
-                }}
+                sx={{ width: 12, height: 12, bgcolor: "rgba(255, 255, 255, 0.5)", borderRadius: "50%" }}
               />
             </Box>
           </Box>
@@ -153,12 +133,7 @@ const Login = () => {
           p: 4,
         }}
       >
-        <Box
-          sx={{
-            maxWidth: 480,
-            width: "100%",
-          }}
-        >
+        <Box sx={{ maxWidth: 480, width: "100%" }}>
           <Box sx={{ textAlign: "center", mb: 5 }}>
             <Typography variant="h4" gutterBottom sx={{ fontWeight: 700 }}>
               Welcome Back
@@ -210,11 +185,7 @@ const Login = () => {
                         onClick={toggleShowPassword}
                         edge="end"
                       >
-                        {showPassword ? (
-                          <VisibilityOffIcon />
-                        ) : (
-                          <VisibilityIcon />
-                        )}
+                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -240,30 +211,20 @@ const Login = () => {
                   }
                   label="Remember me"
                 />
-                <Link
-                  component={RouterLink}
-                  to="/forgot-password"
-                  variant="body2"
-                >
+                <Link component={RouterLink} to="/forgot-password" variant="body2">
                   Forgot password?
                 </Link>
               </Box>
 
-              <Button
+              <PrimaryButton
                 type="submit"
                 fullWidth
-                variant="contained"
                 size="large"
-                sx={{
-                  py: 1.5,
-                  mb: 3,
-                  borderRadius: 2,
-                  fontWeight: 600,
-                }}
+                sx={{ py: 1.5, mb: 3, borderRadius: 2, fontWeight: 600 }}
                 endIcon={<LoginIcon />}
               >
                 Sign In
-              </Button>
+              </PrimaryButton>
 
               <Divider sx={{ my: 3 }}>
                 <Typography variant="body2" color="text.secondary">
