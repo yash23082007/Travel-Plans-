@@ -41,7 +41,14 @@ import ForestIcon from "@mui/icons-material/Forest";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import LuggageIcon from "@mui/icons-material/Luggage";
 
-const CATEGORIES = ["Clothing", "Toiletries", "Electronics", "Documents", "Medicine", "Other"];
+const CATEGORIES = [
+  "Clothing",
+  "Toiletries",
+  "Electronics",
+  "Documents",
+  "Medicine",
+  "Other",
+];
 
 const CATEGORY_COLORS = {
   Clothing: "primary",
@@ -53,8 +60,16 @@ const CATEGORY_COLORS = {
 };
 
 const TEMPLATES = [
-  { key: "beach", label: "Beach Trip", icon: <BeachAccessIcon fontSize="small" /> },
-  { key: "business", label: "Business Travel", icon: <WorkIcon fontSize="small" /> },
+  {
+    key: "beach",
+    label: "Beach Trip",
+    icon: <BeachAccessIcon fontSize="small" />,
+  },
+  {
+    key: "business",
+    label: "Business Travel",
+    icon: <WorkIcon fontSize="small" />,
+  },
   { key: "camping", label: "Camping", icon: <ForestIcon fontSize="small" /> },
 ];
 
@@ -96,9 +111,12 @@ const PackingView = () => {
     if (e.key === "Enter") handleAdd();
   };
 
-  const handleToggle = (itemId) => dispatch(togglePackingItem(selectedTripId, itemId));
-  const handleDelete = (itemId) => dispatch(deletePackingItem(selectedTripId, itemId));
-  const handleTemplate = (templateKey) => dispatch(applyTemplate(selectedTripId, templateKey));
+  const handleToggle = (itemId) =>
+    dispatch(togglePackingItem(selectedTripId, itemId));
+  const handleDelete = (itemId) =>
+    dispatch(deletePackingItem(selectedTripId, itemId));
+  const handleTemplate = (templateKey) =>
+    dispatch(applyTemplate(selectedTripId, templateKey));
   const handleClearAll = () => {
     dispatch(clearPackingList(selectedTripId));
     setConfirmClear(false);
@@ -110,7 +128,9 @@ const PackingView = () => {
   const progress = total === 0 ? 0 : Math.round((packed / total) * 100);
 
   const filteredItems =
-    filterCategory === "All" ? items : items.filter((i) => i.category === filterCategory);
+    filterCategory === "All"
+      ? items
+      : items.filter((i) => i.category === filterCategory);
 
   const unpacked = filteredItems.filter((i) => !i.packed);
   const packedItems = filteredItems.filter((i) => i.packed);
@@ -139,13 +159,22 @@ const PackingView = () => {
   return (
     <Box sx={{ maxWidth: 700, mx: "auto", p: { xs: 2, md: 3 } }}>
       {/* Header */}
-      <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        mb={2}
+      >
         <Typography variant="h5" fontWeight={600}>
           🎒 Packing Checklist
         </Typography>
         {total > 0 && (
           <Tooltip title="Clear all items">
-            <IconButton color="error" size="small" onClick={() => setConfirmClear(true)}>
+            <IconButton
+              color="error"
+              size="small"
+              onClick={() => setConfirmClear(true)}
+            >
               <DeleteSweepIcon />
             </IconButton>
           </Tooltip>
@@ -201,7 +230,11 @@ const PackingView = () => {
             </Box>
           )}
 
-          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
 
           {/* Quick-start templates (shown only on empty list) */}
           {total === 0 && (
@@ -252,7 +285,9 @@ const PackingView = () => {
                     onChange={(e) => setItemCategory(e.target.value)}
                   >
                     {CATEGORIES.map((c) => (
-                      <MenuItem key={c} value={c}>{c}</MenuItem>
+                      <MenuItem key={c} value={c}>
+                        {c}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -274,7 +309,13 @@ const PackingView = () => {
 
           {/* Template chips (shown when list already has items) */}
           {total > 0 && (
-            <Box display="flex" alignItems="center" gap={1} mb={2} flexWrap="wrap">
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={1}
+              mb={2}
+              flexWrap="wrap"
+            >
               <Typography variant="caption" color="text.secondary">
                 Add template:
               </Typography>
@@ -360,7 +401,8 @@ const PackingView = () => {
         <DialogTitle>Clear packing list?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            This will permanently remove all {total} items from this trip's packing list.
+            This will permanently remove all {total} items from this trip's
+            packing list.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -390,7 +432,12 @@ const ItemRow = ({ item, onToggle, onDelete }) => (
       transition: "background-color 0.2s",
     }}
   >
-    <Checkbox checked={item.packed} onChange={onToggle} size="small" color="success" />
+    <Checkbox
+      checked={item.packed}
+      onChange={onToggle}
+      size="small"
+      color="success"
+    />
     <Typography
       variant="body2"
       sx={{

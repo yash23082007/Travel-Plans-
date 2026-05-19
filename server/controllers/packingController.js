@@ -59,12 +59,17 @@ exports.getPackingList = async (req, res) => {
 exports.addItem = async (req, res) => {
   try {
     const { name, category } = req.body;
-    if (!name) return res.status(400).json({ message: "Item name is required" });
+    if (!name)
+      return res.status(400).json({ message: "Item name is required" });
 
     const list = await PackingList.findOneAndUpdate(
       { trip: req.params.tripId, user: req.user.id },
-      { $push: { items: { name, category: category || "Other", packed: false } } },
-      { new: true, upsert: true }
+      {
+        $push: {
+          items: { name, category: category || "Other", packed: false },
+        },
+      },
+      { new: true, upsert: true },
     );
     res.json(list);
   } catch (err) {
@@ -79,7 +84,8 @@ exports.toggleItem = async (req, res) => {
       trip: req.params.tripId,
       user: req.user.id,
     });
-    if (!list) return res.status(404).json({ message: "Packing list not found" });
+    if (!list)
+      return res.status(404).json({ message: "Packing list not found" });
 
     const item = list.items.id(req.params.itemId);
     if (!item) return res.status(404).json({ message: "Item not found" });
@@ -98,9 +104,10 @@ exports.deleteItem = async (req, res) => {
     const list = await PackingList.findOneAndUpdate(
       { trip: req.params.tripId, user: req.user.id },
       { $pull: { items: { _id: req.params.itemId } } },
-      { new: true }
+      { new: true },
     );
-    if (!list) return res.status(404).json({ message: "Packing list not found" });
+    if (!list)
+      return res.status(404).json({ message: "Packing list not found" });
     res.json(list);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
@@ -112,14 +119,15 @@ exports.applyTemplate = async (req, res) => {
   try {
     const { template } = req.body; // "beach" | "business" | "camping"
     const items = TEMPLATES[template];
-    if (!items) return res.status(400).json({ message: "Invalid template name" });
+    if (!items)
+      return res.status(400).json({ message: "Invalid template name" });
 
     const templateItems = items.map((i) => ({ ...i, packed: false }));
 
     const list = await PackingList.findOneAndUpdate(
       { trip: req.params.tripId, user: req.user.id },
       { $push: { items: { $each: templateItems } } },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
     res.json(list);
   } catch (err) {
@@ -133,7 +141,7 @@ exports.clearAll = async (req, res) => {
     const list = await PackingList.findOneAndUpdate(
       { trip: req.params.tripId, user: req.user.id },
       { $set: { items: [] } },
-      { new: true }
+      { new: true },
     );
     res.json(list);
   } catch (err) {

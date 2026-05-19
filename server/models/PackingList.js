@@ -5,12 +5,19 @@ const packingItemSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     category: {
       type: String,
-      enum: ["Clothing", "Toiletries", "Electronics", "Documents", "Medicine", "Other"],
+      enum: [
+        "Clothing",
+        "Toiletries",
+        "Electronics",
+        "Documents",
+        "Medicine",
+        "Other",
+      ],
       default: "Other",
     },
     packed: { type: Boolean, default: false },
   },
-  { _id: true }
+  { _id: true },
 );
 
 const packingListSchema = new mongoose.Schema(
@@ -28,7 +35,7 @@ const packingListSchema = new mongoose.Schema(
     },
     items: [packingItemSchema],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("PackingList", packingListSchema);

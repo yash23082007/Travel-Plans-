@@ -14,17 +14,26 @@ export const fetchPackingList = (tripId) => async (dispatch) => {
     const { data } = await api.get(`/packing/${tripId}`);
     dispatch({ type: PACKING_FETCH_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: PACKING_FETCH_FAIL, payload: err.response?.data?.message || err.message });
+    dispatch({
+      type: PACKING_FETCH_FAIL,
+      payload: err.response?.data?.message || err.message,
+    });
   }
 };
 
 // Add a new item
 export const addPackingItem = (tripId, name, category) => async (dispatch) => {
   try {
-    const { data } = await api.post(`/packing/${tripId}/items`, { name, category });
+    const { data } = await api.post(`/packing/${tripId}/items`, {
+      name,
+      category,
+    });
     dispatch({ type: PACKING_UPDATE_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: PACKING_UPDATE_FAIL, payload: err.response?.data?.message || err.message });
+    dispatch({
+      type: PACKING_UPDATE_FAIL,
+      payload: err.response?.data?.message || err.message,
+    });
   }
 };
 
@@ -34,7 +43,10 @@ export const togglePackingItem = (tripId, itemId) => async (dispatch) => {
     const { data } = await api.patch(`/packing/${tripId}/items/${itemId}`);
     dispatch({ type: PACKING_UPDATE_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: PACKING_UPDATE_FAIL, payload: err.response?.data?.message || err.message });
+    dispatch({
+      type: PACKING_UPDATE_FAIL,
+      payload: err.response?.data?.message || err.message,
+    });
   }
 };
 
@@ -44,17 +56,25 @@ export const deletePackingItem = (tripId, itemId) => async (dispatch) => {
     const { data } = await api.delete(`/packing/${tripId}/items/${itemId}`);
     dispatch({ type: PACKING_UPDATE_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: PACKING_UPDATE_FAIL, payload: err.response?.data?.message || err.message });
+    dispatch({
+      type: PACKING_UPDATE_FAIL,
+      payload: err.response?.data?.message || err.message,
+    });
   }
 };
 
 // Apply a preset template ("beach" | "business" | "camping")
 export const applyTemplate = (tripId, template) => async (dispatch) => {
   try {
-    const { data } = await api.post(`/packing/${tripId}/template`, { template });
+    const { data } = await api.post(`/packing/${tripId}/template`, {
+      template,
+    });
     dispatch({ type: PACKING_UPDATE_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: PACKING_UPDATE_FAIL, payload: err.response?.data?.message || err.message });
+    dispatch({
+      type: PACKING_UPDATE_FAIL,
+      payload: err.response?.data?.message || err.message,
+    });
   }
 };
 
@@ -64,6 +84,9 @@ export const clearPackingList = (tripId) => async (dispatch) => {
     const { data } = await api.delete(`/packing/${tripId}/items`);
     dispatch({ type: PACKING_UPDATE_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: PACKING_UPDATE_FAIL, payload: err.response?.data?.message || err.message });
+    dispatch({
+      type: PACKING_UPDATE_FAIL,
+      payload: err.response?.data?.message || err.message,
+    });
   }
 };

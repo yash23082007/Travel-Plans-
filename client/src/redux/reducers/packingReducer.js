@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   loading: false,
-  list: null,   // { _id, trip, user, items: [...] }
+  list: null, // { _id, trip, user, items: [...] }
   error: null,
 };
 
