@@ -56,7 +56,6 @@ const Login = () => {
     });
 
     if (name === "email") {
-      // Real-time strict RFC 5322 email pre-validation for login inputs
       if (
         value &&
         !/^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
@@ -102,7 +101,6 @@ const Login = () => {
     return isValid;
   };
 
-  // Dynamically disable Sign In button when email or password fields are empty or invalid
   const isSignInDisabled = () => {
     return (
       !formData.email ||
@@ -119,7 +117,6 @@ const Login = () => {
     if (validateForm()) {
       dispatch(login(formData));
     }
-    dispatch(login(formData));
   };
 
   return (
@@ -307,12 +304,6 @@ const Login = () => {
                 fullWidth
                 size="large"
                 disabled={isSignInDisabled()}
-                sx={{
-                  py: 1.5,
-                  mb: 3,
-                  borderRadius: 2,
-                  fontWeight: 600,
-                }}
                 sx={{ py: 1.5, mb: 3, borderRadius: 2, fontWeight: 600 }}
                 endIcon={<LoginIcon />}
               >
