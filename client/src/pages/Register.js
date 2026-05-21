@@ -26,7 +26,6 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CheckCircleOutlineIcon from "@mui/icons-material/TaskAlt";
 import ArrowForwardIcon from "@mui/icons-material/East";
 import ArrowBackIcon from "@mui/icons-material/West";
-import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 
