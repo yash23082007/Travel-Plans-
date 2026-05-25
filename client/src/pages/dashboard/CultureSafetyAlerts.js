@@ -6,7 +6,8 @@ const mockAlerts = [
     type: "safety",
     severity: "high",
     title: "Pickpocket Alert",
-    description: "High pickpocket activity reported near the central market area. Keep your belongings secure.",
+    description:
+      "High pickpocket activity reported near the central market area. Keep your belongings secure.",
     location: "Central Market, Old City",
     time: "15 min ago",
     icon: "⚠️",
@@ -16,7 +17,8 @@ const mockAlerts = [
     type: "safety",
     severity: "medium",
     title: "Road Closure",
-    description: "Main highway closed due to local festival procession. Expect heavy traffic diversions.",
+    description:
+      "Main highway closed due to local festival procession. Expect heavy traffic diversions.",
     location: "MG Road",
     time: "1 hr ago",
     icon: "🚧",
@@ -26,7 +28,8 @@ const mockAlerts = [
     type: "safety",
     severity: "low",
     title: "Weather Warning",
-    description: "Thunderstorms expected after 6 PM. Carry an umbrella and avoid open areas.",
+    description:
+      "Thunderstorms expected after 6 PM. Carry an umbrella and avoid open areas.",
     location: "City Wide",
     time: "2 hr ago",
     icon: "🌩️",
@@ -87,7 +90,12 @@ const emergencyContacts = [
 
 const severityConfig = {
   high: { bg: "#fef2f2", border: "#fca5a5", badge: "#ef4444", text: "HIGH" },
-  medium: { bg: "#fffbeb", border: "#fcd34d", badge: "#f59e0b", text: "MEDIUM" },
+  medium: {
+    bg: "#fffbeb",
+    border: "#fcd34d",
+    badge: "#f59e0b",
+    text: "MEDIUM",
+  },
   low: { bg: "#f0fdf4", border: "#86efac", badge: "#22c55e", text: "LOW" },
 };
 
@@ -139,7 +147,9 @@ export default function CultureSafetyAlerts() {
   }, [sosActive]);
 
   const filteredAlerts =
-    filter === "all" ? mockAlerts : mockAlerts.filter((a) => a.severity === filter);
+    filter === "all"
+      ? mockAlerts
+      : mockAlerts.filter((a) => a.severity === filter);
 
   const openAlert = (alert) => {
     setSelectedAlert(alert);
@@ -152,7 +162,9 @@ export default function CultureSafetyAlerts() {
       <div style={styles.header}>
         <div>
           <h1 style={styles.headerTitle}>🛡️ Safety & Culture Hub</h1>
-          <p style={styles.headerSub}>Hyper-local alerts & cultural insights for smart travel</p>
+          <p style={styles.headerSub}>
+            Hyper-local alerts & cultural insights for smart travel
+          </p>
         </div>
         <div style={styles.liveIndicator}>
           <span style={styles.liveDot} />
@@ -171,7 +183,10 @@ export default function CultureSafetyAlerts() {
                 ? `Alerting emergency contacts in ${sosCountdown}s...`
                 : "Emergency contacts notified! Help is on the way."}
             </p>
-            <button style={styles.cancelSos} onClick={() => setSosActive(false)}>
+            <button
+              style={styles.cancelSos}
+              onClick={() => setSosActive(false)}
+            >
               Cancel SOS
             </button>
           </div>
@@ -201,10 +216,16 @@ export default function CultureSafetyAlerts() {
         {/* Emergency contacts */}
         <div style={styles.emergencyGrid}>
           {emergencyContacts.map((c) => (
-            <a key={c.label} href={`tel:${c.number}`} style={{ ...styles.emergencyCard, borderColor: c.color }}>
+            <a
+              key={c.label}
+              href={`tel:${c.number}`}
+              style={{ ...styles.emergencyCard, borderColor: c.color }}
+            >
               <span style={styles.emergencyIcon}>{c.icon}</span>
               <span style={styles.emergencyLabel}>{c.label}</span>
-              <span style={{ ...styles.emergencyNumber, color: c.color }}>{c.number}</span>
+              <span style={{ ...styles.emergencyNumber, color: c.color }}>
+                {c.number}
+              </span>
             </a>
           ))}
         </div>
@@ -215,7 +236,10 @@ export default function CultureSafetyAlerts() {
         {["alerts", "culture"].map((tab) => (
           <button
             key={tab}
-            style={{ ...styles.tab, ...(activeTab === tab ? styles.activeTab : {}) }}
+            style={{
+              ...styles.tab,
+              ...(activeTab === tab ? styles.activeTab : {}),
+            }}
             onClick={() => setActiveTab(tab)}
           >
             {tab === "alerts" ? "⚠️ Nearby Alerts" : "🌏 Culture Tips"}
@@ -234,7 +258,10 @@ export default function CultureSafetyAlerts() {
             {["all", "high", "medium", "low"].map((f) => (
               <button
                 key={f}
-                style={{ ...styles.filterBtn, ...(filter === f ? styles.activeFilter : {}) }}
+                style={{
+                  ...styles.filterBtn,
+                  ...(filter === f ? styles.activeFilter : {}),
+                }}
                 onClick={() => setFilter(f)}
               >
                 {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -249,7 +276,11 @@ export default function CultureSafetyAlerts() {
               return (
                 <div
                   key={alert.id}
-                  style={{ ...styles.alertCard, background: cfg.bg, borderColor: cfg.border }}
+                  style={{
+                    ...styles.alertCard,
+                    background: cfg.bg,
+                    borderColor: cfg.border,
+                  }}
                   onClick={() => openAlert(alert)}
                 >
                   <div style={styles.alertTop}>
@@ -257,7 +288,12 @@ export default function CultureSafetyAlerts() {
                     <div style={styles.alertInfo}>
                       <div style={styles.alertTitleRow}>
                         <span style={styles.alertTitle}>{alert.title}</span>
-                        <span style={{ ...styles.severityBadge, background: cfg.badge }}>
+                        <span
+                          style={{
+                            ...styles.severityBadge,
+                            background: cfg.badge,
+                          }}
+                        >
                           {cfg.text}
                         </span>
                       </div>
@@ -296,16 +332,28 @@ export default function CultureSafetyAlerts() {
             <div style={styles.popupHeader}>
               <span style={styles.popupEmoji}>{selectedAlert.icon}</span>
               <h2 style={styles.popupTitle}>{selectedAlert.title}</h2>
-              <button style={styles.closeBtn} onClick={() => setShowPopup(false)}>✕</button>
+              <button
+                style={styles.closeBtn}
+                onClick={() => setShowPopup(false)}
+              >
+                ✕
+              </button>
             </div>
-            <div style={{ ...styles.popupSeverity, background: severityConfig[selectedAlert.severity].badge }}>
+            <div
+              style={{
+                ...styles.popupSeverity,
+                background: severityConfig[selectedAlert.severity].badge,
+              }}
+            >
               {severityConfig[selectedAlert.severity].text} SEVERITY
             </div>
             <p style={styles.popupDesc}>{selectedAlert.description}</p>
             <div style={styles.popupMeta}>
               <div style={styles.popupMetaItem}>
                 <span style={styles.popupMetaLabel}>📍 Location</span>
-                <span style={styles.popupMetaValue}>{selectedAlert.location}</span>
+                <span style={styles.popupMetaValue}>
+                  {selectedAlert.location}
+                </span>
               </div>
               <div style={styles.popupMetaItem}>
                 <span style={styles.popupMetaLabel}>🕐 Reported</span>
@@ -314,7 +362,12 @@ export default function CultureSafetyAlerts() {
             </div>
             <div style={styles.popupActions}>
               <button style={styles.popupBtn}>📤 Share Alert</button>
-              <button style={styles.popupBtnOutline} onClick={() => setShowPopup(false)}>Got it</button>
+              <button
+                style={styles.popupBtnOutline}
+                onClick={() => setShowPopup(false)}
+              >
+                Got it
+              </button>
             </div>
           </div>
         </div>
@@ -410,12 +463,20 @@ const styles = {
   },
   sosPulse: {
     position: "absolute",
-    top: 0, left: 0, right: 0, bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     background: "rgba(239,68,68,0.05)",
     animation: "pulse 1s infinite",
     pointerEvents: "none",
   },
-  sosActiveTitle: { fontSize: 18, fontWeight: 800, color: "#ef4444", margin: "0 0 4px" },
+  sosActiveTitle: {
+    fontSize: 18,
+    fontWeight: 800,
+    color: "#ef4444",
+    margin: "0 0 4px",
+  },
   sosActiveText: { fontSize: 13, color: "#b91c1c", margin: "0 0 12px" },
   cancelSos: {
     background: "white",
@@ -512,7 +573,12 @@ const styles = {
   alertTop: { display: "flex", gap: 12 },
   alertEmoji: { fontSize: 28, flexShrink: 0 },
   alertInfo: { flex: 1 },
-  alertTitleRow: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 },
+  alertTitleRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 4,
+  },
   alertTitle: { fontWeight: 700, fontSize: 15, color: "#0f172a" },
   severityBadge: {
     fontSize: 10,
@@ -522,7 +588,12 @@ const styles = {
     borderRadius: 6,
     letterSpacing: 0.5,
   },
-  alertDesc: { fontSize: 13, color: "#475569", margin: "0 0 6px", lineHeight: 1.5 },
+  alertDesc: {
+    fontSize: 13,
+    color: "#475569",
+    margin: "0 0 6px",
+    lineHeight: 1.5,
+  },
   alertMeta: { display: "flex", gap: 12, fontSize: 11, color: "#94a3b8" },
   cultureGrid: {
     display: "grid",
@@ -545,7 +616,12 @@ const styles = {
     display: "block",
     marginBottom: 4,
   },
-  cultureTitle: { fontSize: 14, fontWeight: 700, color: "#0f172a", margin: "0 0 6px" },
+  cultureTitle: {
+    fontSize: 14,
+    fontWeight: 700,
+    color: "#0f172a",
+    margin: "0 0 6px",
+  },
   cultureTip: { fontSize: 12, color: "#64748b", lineHeight: 1.6, margin: 0 },
   overlay: {
     position: "fixed",
@@ -565,9 +641,20 @@ const styles = {
     maxWidth: 420,
     boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
   },
-  popupHeader: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 },
+  popupHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 12,
+  },
   popupEmoji: { fontSize: 32 },
-  popupTitle: { flex: 1, fontSize: 18, fontWeight: 800, color: "#0f172a", margin: 0 },
+  popupTitle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: 800,
+    color: "#0f172a",
+    margin: 0,
+  },
   closeBtn: {
     background: "#f1f5f9",
     border: "none",
@@ -588,9 +675,23 @@ const styles = {
     letterSpacing: 1,
     marginBottom: 12,
   },
-  popupDesc: { fontSize: 14, color: "#475569", lineHeight: 1.6, marginBottom: 16 },
-  popupMeta: { background: "#f8fafc", borderRadius: 10, padding: 12, marginBottom: 16 },
-  popupMetaItem: { display: "flex", justifyContent: "space-between", padding: "4px 0" },
+  popupDesc: {
+    fontSize: 14,
+    color: "#475569",
+    lineHeight: 1.6,
+    marginBottom: 16,
+  },
+  popupMeta: {
+    background: "#f8fafc",
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 16,
+  },
+  popupMetaItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "4px 0",
+  },
   popupMetaLabel: { fontSize: 12, color: "#94a3b8" },
   popupMetaValue: { fontSize: 12, fontWeight: 600, color: "#0f172a" },
   popupActions: { display: "flex", gap: 10 },
