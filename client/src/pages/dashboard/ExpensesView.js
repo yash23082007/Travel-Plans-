@@ -40,6 +40,7 @@ import {
   addExpense,
   deleteExpense,
   getExpenseSummary,
+  fetchCurrencyRates,
 } from "../../redux/actions/expenseActions";
 import { getTrips } from "../../redux/actions/tripActions";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -70,16 +71,31 @@ const CATEGORY_COLORS = {
   Other: "#F44336",
 };
 
+const CURRENCIES = ["INR", "USD", "EUR", "GBP", "JPY", "AED", "SGD", "AUD"];
+
+const CURRENCY_SYMBOLS = {
+  INR: "₹",
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+  JPY: "¥",
+  AED: "د.إ",
+  SGD: "S$",
+  AUD: "A$",
+};
+
 const ExpensesView = () => {
   const dispatch = useDispatch();
-  const { expenses, expenseSummary, loading } = useSelector(
-    (state) => state.expenses,
-  );
+
+  const { expenses, expenseSummary, loading, exchangeRates, baseCurrency } =
+    useSelector((state) => state.expenses);
   const { trips } = useSelector((state) => state.trips);
 
   const [activeTripId, setActiveTripId] = useState("");
   const [open, setOpen] = useState(false);
   const [amountError, setAmountError] = useState("");
+  const [selectedBase, setSelectedBase] = useState("INR");
+
   const [form, setForm] = useState({
     amount: "",
     category: "Food",
@@ -105,11 +121,50 @@ const ExpensesView = () => {
     }
   }, [dispatch, activeTripId]);
 
+  // Fetch exchange rates whenever user changes base currency.
+  // Always fetches with base=INR so all rates are "1 INR = X currency",
+  // which lets us convert between any two currencies using INR as pivot.
+  useEffect(() => {
+    dispatch(fetchCurrencyRates(selectedBase));
+  }, [dispatch, selectedBase]);
+
+  // Converts any amount from its stored currency to the user's baseCurrency.
+  // Uses INR as a pivot: amount → INR → baseCurrency
+  const toBase = (amount, currency) => {
+    if (currency === baseCurrency) return amount;
+    if (!exchangeRates || Object.keys(exchangeRates).length === 0)
+      return amount;
+
+    let amountInINR;
+    if (currency === "INR") {
+      amountInINR = amount;
+    } else {
+      const rateToINR = exchangeRates[currency];
+      if (!rateToINR) return amount;
+      amountInINR = amount / rateToINR;
+    }
+
+    if (baseCurrency === "INR") return amountInINR.toFixed(2);
+    const rateToBase = exchangeRates[baseCurrency];
+    if (!rateToBase) return amount;
+    return (amountInINR * rateToBase).toFixed(2);
+  };
+
+  const currencySymbol = CURRENCY_SYMBOLS[baseCurrency] || baseCurrency;
+
   const totalSpent = expenses
-    ? expenses.reduce((acc, e) => acc + e.amount, 0)
+    ? expenses.reduce(
+        (acc, e) => acc + parseFloat(toBase(e.amount, e.currency)),
+        0,
+      )
     : 0;
+
   const activeTrip = trips?.find((t) => t._id === activeTripId);
-  const budget = activeTrip?.budget || 0;
+
+  // Budget is stored in INR in the Trip model, so convert it to baseCurrency
+  const rawBudget = activeTrip?.budget || 0;
+  const budget = rawBudget > 0 ? parseFloat(toBase(rawBudget, "INR")) : 0;
+
   const remaining = budget > 0 ? budget - totalSpent : null;
 
   const chartData = expenseSummary
@@ -227,7 +282,7 @@ const ExpensesView = () => {
               variant="outlined"
               startIcon={<DownloadIcon />}
               onClick={handleExportCSV}
-              disabled={!activeTripId || !expenses || expenses.length === 0} // ← ADD THIS
+              disabled={!activeTripId || !expenses || expenses.length === 0}
               sx={{ borderRadius: 3 }}
             >
               Export
@@ -242,6 +297,26 @@ const ExpensesView = () => {
             Add Expense
           </PrimaryButton>
         </Box>
+      </Box>
+
+      {/* Base Currency Selector */}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Display totals in:
+        </Typography>
+        <TextField
+          select
+          size="small"
+          value={selectedBase}
+          onChange={(e) => setSelectedBase(e.target.value)}
+          sx={{ width: 120 }}
+        >
+          {CURRENCIES.map((c) => (
+            <MenuItem key={c} value={c}>
+              {CURRENCY_SYMBOLS[c]} {c}
+            </MenuItem>
+          ))}
+        </TextField>
       </Box>
 
       {/* Trip Selector */}
@@ -295,7 +370,10 @@ const ExpensesView = () => {
               Total Spent
             </Typography>
             <Typography variant="h5" fontWeight={700}>
-              ₹{totalSpent.toLocaleString()}
+              {currencySymbol}
+              {totalSpent.toLocaleString(undefined, {
+                maximumFractionDigits: 2,
+              })}
             </Typography>
           </Paper>
         </Grid>
@@ -313,7 +391,9 @@ const ExpensesView = () => {
               Budget
             </Typography>
             <Typography variant="h5" fontWeight={700} color="success.main">
-              {budget > 0 ? `₹${budget.toLocaleString()}` : "—"}
+              {budget > 0
+                ? `${currencySymbol}${budget.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+                : "—"}
             </Typography>
           </Paper>
         </Grid>
@@ -348,7 +428,9 @@ const ExpensesView = () => {
                 remaining !== null && remaining < 0 ? "error.main" : "info.main"
               }
             >
-              {remaining !== null ? `₹${remaining.toLocaleString()}` : "—"}
+              {remaining !== null
+                ? `${currencySymbol}${remaining.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+                : "—"}
             </Typography>
           </Paper>
         </Grid>
@@ -414,7 +496,23 @@ const ExpensesView = () => {
                           {expense.description || "—"}
                         </TableCell>
                         <TableCell align="right" sx={{ fontWeight: 700 }}>
-                          ₹{expense.amount.toLocaleString()}
+                          {CURRENCY_SYMBOLS[expense.currency] ||
+                            expense.currency}
+                          {expense.amount.toLocaleString()}
+                          {expense.currency !== baseCurrency && (
+                            <Typography
+                              variant="caption"
+                              display="block"
+                              color="text.secondary"
+                            >
+                              ≈ {currencySymbol}
+                              {parseFloat(
+                                toBase(expense.amount, expense.currency),
+                              ).toLocaleString(undefined, {
+                                maximumFractionDigits: 2,
+                              })}
+                            </Typography>
+                          )}
                         </TableCell>
                         <TableCell align="right">
                           <IconButton
@@ -479,7 +577,10 @@ const ExpensesView = () => {
                     ))}
                   </Pie>
                   <ReTooltip
-                    formatter={(value) => [`₹${value.toLocaleString()}`, ""]}
+                    formatter={(value) => [
+                      `${currencySymbol}${value.toLocaleString()}`,
+                      "",
+                    ]}
                   />
                   <Legend />
                 </PieChart>
@@ -516,7 +617,7 @@ const ExpensesView = () => {
               <Grid xs={6}>
                 <TextField
                   fullWidth
-                  label="Amount (₹) *"
+                  label="Amount *"
                   type="number"
                   value={form.amount}
                   onChange={handleAmountChange}
@@ -535,9 +636,9 @@ const ExpensesView = () => {
                     setForm({ ...form, currency: e.target.value })
                   }
                 >
-                  {["INR", "USD", "EUR", "GBP"].map((c) => (
+                  {CURRENCIES.map((c) => (
                     <MenuItem key={c} value={c}>
-                      {c}
+                      {CURRENCY_SYMBOLS[c]} {c}
                     </MenuItem>
                   ))}
                 </TextField>
