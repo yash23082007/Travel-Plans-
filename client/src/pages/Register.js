@@ -441,32 +441,6 @@ const Register = () => {
             <Typography variant="h5" sx={{ mb: 4, maxWidth: "80%" }}>
               Create an account to start planning your next adventure
             </Typography>
-            <Box sx={{ display: "flex", gap: 1, mb: 4 }}>
-              <Box
-                sx={{
-                  width: 12,
-                  height: 12,
-                  bgcolor: "white",
-                  borderRadius: "50%",
-                }}
-              />
-              <Box
-                sx={{
-                  width: 12,
-                  height: 12,
-                  bgcolor: "rgba(255, 255, 255, 0.5)",
-                  borderRadius: "50%",
-                }}
-              />
-              <Box
-                sx={{
-                  width: 12,
-                  height: 12,
-                  bgcolor: "rgba(255, 255, 255, 0.5)",
-                  borderRadius: "50%",
-                }}
-              />
-            </Box>
           </Box>
         </Box>
       )}
