@@ -446,7 +446,8 @@ const Register = () => {
                 sx={{
                   width: 12,
                   height: 12,
-                  bgcolor: activeStep == 0 ?"white":"rgba(255, 255, 255, 0.5)",
+                  bgcolor:
+                    activeStep == 0 ? "white" : "rgba(255, 255, 255, 0.5)",
                   borderRadius: "50%",
                 }}
               />
@@ -454,7 +455,8 @@ const Register = () => {
                 sx={{
                   width: 12,
                   height: 12,
-                  bgcolor: activeStep == 1 ?"white":"rgba(255, 255, 255, 0.5)",
+                  bgcolor:
+                    activeStep == 1 ? "white" : "rgba(255, 255, 255, 0.5)",
                   borderRadius: "50%",
                 }}
               />
@@ -462,7 +464,8 @@ const Register = () => {
                 sx={{
                   width: 12,
                   height: 12,
-                  bgcolor: activeStep ==  2 ?"white":"rgba(255, 255, 255, 0.5)",
+                  bgcolor:
+                    activeStep == 2 ? "white" : "rgba(255, 255, 255, 0.5)",
                   borderRadius: "50%",
                 }}
               />
