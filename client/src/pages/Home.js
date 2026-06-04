@@ -5,6 +5,9 @@ import "./Home.css";
 import api from "../services/api";
 import { addTrip } from "../redux/actions/tripActions";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import RecentlyViewed from "../components/RecentlyViewed";
+import { addRecentlyViewed } from "../utils/recentlyViewed";
+
 /* ── SVG SCENES ─────────────────────────────────────────────── */
 const SceneIceland = () => (
   <svg
@@ -390,10 +393,14 @@ const Home = () => {
   }, []);
 
   const handleAddTrip = (dest) => {
+    // Save to recently viewed regardless of auth status
+    addRecentlyViewed(dest); // ← MOVE THIS to the top, before the auth check
+
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
+
     const today = new Date(),
       next = new Date();
     next.setDate(today.getDate() + 7);
@@ -671,6 +678,21 @@ const Home = () => {
       </div>
 
       {/* ═══ DESTINATIONS ═══ */}
+
+      {/* ═══ RECENTLY VIEWED ═══ */}
+      <div
+        style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem" }}
+      >
+        <RecentlyViewed
+          onSelectDestination={(dest) => {
+            document
+              .getElementById("wander-dest-section")
+              ?.scrollIntoView({ behavior: "smooth" });
+            setWhere(dest.name);
+          }}
+        />
+      </div>
+
       <section className="wander-section" id="wander-dest-section">
         <div className="wander-section-header">
           <div>

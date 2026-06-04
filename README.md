@@ -126,6 +126,15 @@ Whether you're planning a weekend getaway or a month-long adventure, PackGo keep
 - Quick action cards for navigation
 - Upcoming trip cards with status badges
 
+### 🕐 Recently Viewed Destinations
+
+- Tracks the last **5 destinations** you explored on the home page
+- Persists across page refreshes using **localStorage**
+- Horizontally scrollable cards with destination image, name, and location
+- One-click to jump back to a destination
+- **Clear all** button to reset history
+- No duplicates — revisiting a destination moves it to the top
+
 ---
 
 ## 🛠️ Tech Stack
