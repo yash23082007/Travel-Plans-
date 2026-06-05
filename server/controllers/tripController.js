@@ -121,11 +121,8 @@ exports.updateTrip = async (req, res) => {
       }
     }
 
-    trip = await Trip.findByIdAndUpdate(
-      req.params.id,
-      { $set: updateData },
-      { new: true },
-    );
+    trip.set(updateData);
+    await trip.save();
 
     res.json(trip);
   } catch (err) {
