@@ -61,15 +61,15 @@ Whether you're planning a weekend getaway or a month-long adventure, PackGo keep
 
 ### 🏠 Landing Page & Dashboard
 
-|               Landing Page                   |             Dashboard                  |
-| :-----------------------------------------:  | :------------------------------------: |
+|                 Landing Page                 |               Dashboard                |
+| :------------------------------------------: | :------------------------------------: |
 | ![Landing Page](assets/new-landing-page.png) | ![Dashboard](assets/new-dashboard.png) |
 
 ### 🗺️ Trip Detail & Expense Tracker
 
-|              Trip Detail               |                Destinations                    |
-| :------------------------------------: | :--------------------------------------------: |
-| ![Trip Detail](assets/photo1.png)      | ![Destinations](assets/photo1.png)             |
+|            Trip Detail            |            Destinations            |
+| :-------------------------------: | :--------------------------------: |
+| ![Trip Detail](assets/photo1.png) | ![Destinations](assets/photo1.png) |
 
 ---
 
@@ -309,7 +309,7 @@ cd Travel-Plans-
 >
 > Please install dependencies and run scripts separately inside the `client` and `server` directories.
 
-```bash
+````bash
 
 ### Important
 
@@ -321,7 +321,7 @@ Backend:
 cd server
 npm install
 npm run dev
-```
+````
 
 Frontend:
 
@@ -332,7 +332,6 @@ npm start
 ```
 
 Running commands from the wrong directory may result in missing files or package.json errors.
-
 
 ### ⚠️ Important
 
@@ -346,13 +345,16 @@ Install dependencies separately inside:
 Running commands from the root directory may result in missing script errors.
 
 # Install backend dependencies
+
 cd server
 npm install
 
 # Install frontend dependencies
+
 cd ../client
 npm install
-```
+
+````
 
 ### 3. Configure Environment Variables
 
@@ -361,7 +363,7 @@ Copy the example file and fill in your values:
 ```bash
 cp .env.example server/.env
 Copy-Item .env.example server\.env
-```
+````
 
 Open `server/.env` and update:
 
@@ -443,7 +445,6 @@ Could not read package.json
 ```
 
 Verify that you are running commands from the correct project directory (`server/` or `client/`).
-
 
 ## 📡 API Endpoints
 
