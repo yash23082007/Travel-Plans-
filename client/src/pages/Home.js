@@ -451,10 +451,10 @@ const Home = () => {
             <a href="#wander-dest-section">Destinations</a>
           </li>
           <li>
-            <a href="#wander-testi">Experiences</a>
+            <a href="#wander-features">Features</a>
           </li>
           <li>
-            <a href="#wander-features">Features</a>
+            <a href="#wander-testimonials">Testimonials</a>
           </li>
           {isAuthenticated && (
             <li>
@@ -875,7 +875,7 @@ const Home = () => {
       </section>
 
       {/* ═══ TESTIMONIAL ═══ */}
-      <section className="wander-testi-section" id="wander-testi">
+      <section className="wander-testi-section" id="wander-testimonials">
         <div>
           <div className="wander-testi-label">Traveller Stories</div>
           <div className="wander-testi-heading">
@@ -946,8 +946,8 @@ const Home = () => {
             <div className="wander-footer-col">
               <h4>Explore</h4>
               <a href="#wander-dest-section">Destinations</a>
-              <a href="#wander-features">Experiences</a>
               <a href="#wander-features">Features</a>
+              <a href="#wander-testimonials">Testimonials</a>
             </div>
 
             <div className="wander-footer-col">
