@@ -15,20 +15,6 @@ const BudgetForm = ({
     },
   };
 
-  /*  const cardStyle = {
-    border: "2px solid #80DEEA",
-    borderRadius: "24px",
-    boxShadow: "0 12px 35px rgba(0,0,0,0.08)",
-    textAlign: "center",
-    height: "100%",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-    background: "#fff",
-    "&:hover": {
-        transform: "translateY(-8px)",
-    boxShadow: "0 20px 45px rgba(0,0,0,0.15)",
-  },
-};*/
   return (
     <Card
       sx={{
