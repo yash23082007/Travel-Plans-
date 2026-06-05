@@ -274,7 +274,9 @@ exports.bookHotel = async (req, res) => {
 
     // 3. Complete Safe Price Calculation
     const PRICE_PER_NIGHT = 199.99;
-    const calculatedPrice = parseFloat((PRICE_PER_NIGHT * totalNights).toFixed(2));
+    const calculatedPrice = parseFloat(
+      (PRICE_PER_NIGHT * totalNights).toFixed(2),
+    );
 
     const bookingConfirmation = {
       bookingId: "HB" + Math.floor(Math.random() * 10000000),
