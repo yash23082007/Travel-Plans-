@@ -5,6 +5,7 @@ import "./Home.css";
 import api from "../services/api";
 import { addTrip } from "../redux/actions/tripActions";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import FAQSection from "../components/FAQSection";
 import RecentlyViewed from "../components/RecentlyViewed";
 import { addRecentlyViewed } from "../utils/recentlyViewed";
 
@@ -381,6 +382,8 @@ const SearchIcon = () => (
   </svg>
 );
 
+const SEARCH_HISTORY_KEY = "recentDestinationSearches";
+
 /* ══════════════════════════════════════════════════════════════ */
 /*  COMPONENT                                                      */
 /* ══════════════════════════════════════════════════════════════ */
@@ -394,9 +397,39 @@ const Home = () => {
   const [where, setWhere] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [travellers, setTravellers] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [showRecentSearches, setShowRecentSearches] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const checkInRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(SEARCH_HISTORY_KEY) ?? "[]",
+      );
+      if (Array.isArray(saved)) {
+        setRecentSearches(saved.filter((item) => typeof item === "string"));
+      }
+    } catch (error) {
+      console.error("Failed to load search history:", error);
+    }
+  }, []);
+
+  const updateSearchHistory = (query) => {
+    const normalized = query.trim();
+    if (!normalized) return;
+
+    const nextSearches = [
+      normalized,
+      ...recentSearches.filter(
+        (item) => item.toLowerCase() !== normalized.toLowerCase(),
+      ),
+    ].slice(0, 5);
+
+    setRecentSearches(nextSearches);
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(nextSearches));
+  };
 
   useEffect(() => {
     api
@@ -449,6 +482,11 @@ const Home = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    const query = where.trim();
+    if (query) {
+      updateSearchHistory(query);
+    }
+    setShowRecentSearches(false);
     document
       .getElementById("wander-dest-section")
       ?.scrollIntoView({ behavior: "smooth" });
@@ -483,10 +521,10 @@ const Home = () => {
             <a href="#wander-dest-section">Destinations</a>
           </li>
           <li>
-            <a href="#wander-testi">Experiences</a>
+            <a href="#wander-features">Features</a>
           </li>
           <li>
-            <a href="#wander-features">Features</a>
+            <a href="#wander-testimonials">Testimonials</a>
           </li>
           {isAuthenticated && (
             <li>
@@ -664,14 +702,41 @@ const Home = () => {
       {/* ═══ SEARCH BAR ═══ */}
       <div className="wander-search-section">
         <form className="wander-search-bar" onSubmit={handleSearch}>
-          <div className="wander-sf">
+          <div className="wander-sf" style={{ position: "relative" }}>
             <div className="wander-sf-label">Where to</div>
             <input
               className="wander-sf-val"
               placeholder="Bali, Indonesia"
               value={where}
-              onChange={(e) => setWhere(e.target.value)}
+              onChange={(e) => {
+                setWhere(e.target.value);
+                if (recentSearches.length > 0) {
+                  setShowRecentSearches(true);
+                }
+              }}
+              onFocus={() => {
+                if (recentSearches.length > 0) {
+                  setShowRecentSearches(true);
+                }
+              }}
             />
+            {showRecentSearches && recentSearches.length > 0 && (
+              <div className="wander-recent-searches">
+                {recentSearches.map((search) => (
+                  <button
+                    key={search}
+                    type="button"
+                    className="wander-recent-search-item"
+                    onMouseDown={() => {
+                      setWhere(search);
+                      setShowRecentSearches(false);
+                    }}
+                  >
+                    {search}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="wander-sf">
             <div className="wander-sf-label">Check In</div>
@@ -905,6 +970,7 @@ const Home = () => {
           ))}
         </div>
       </section>
+      <FAQSection />
 
       {/* ═══ TESTIMONIAL ═══ */}
       <section className="wander-testi-section">
@@ -969,14 +1035,13 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ═══ FOOTER ═══ */}
+      {/* ═══ FOOTER (UPDATED with <Link> for routing) ═══ */}
       <footer className="wander-footer">
         <div className="wander-footer-top">
           <div className="wander-footer-brand">
             <Link to="/" className="wander-footer-logo">
               Pack<span>Go</span>
             </Link>
-
             <p>
               Discover breathtaking destinations, curated travel experiences,
               and unforgettable journeys with PackGo Travel.
@@ -987,26 +1052,22 @@ const Home = () => {
             <div className="wander-footer-col">
               <h4>Explore</h4>
               <a href="#wander-dest-section">Destinations</a>
-              <a href="#wander-features">Experiences</a>
               <a href="#wander-features">Features</a>
+              <a href="#wander-testimonials">Testimonials</a>
             </div>
 
             <div className="wander-footer-col">
               <h4>Company</h4>
-
-              {/* Add your routes here if they exist */}
               <Link to="/about">About</Link>
               <Link to="/careers">Careers</Link>
-
-              {/* Contact Page Link */}
-              <Link to="/contact">Contact Us</Link>
+              <Link to="/contact">Contact</Link>
             </div>
 
             <div className="wander-footer-col">
               <h4>Support</h4>
-              <Link to="/help-center">Help Center</Link>
-              <Link to="/privacy-policy">Privacy Policy</Link>
-              <Link to="/terms-and-conditions">Terms & Conditions</Link>
+              <Link to="/help">Help Center</Link>
+              <Link to="/privacy">Privacy Policy</Link>
+              <Link to="/terms">Terms & Conditions</Link>
             </div>
           </div>
         </div>
@@ -1015,7 +1076,6 @@ const Home = () => {
           <div className="wander-footer-copy">
             © {new Date().getFullYear()} PackGo Travel Co. All rights reserved.
           </div>
-
           <div className="wander-footer-socials">
             <a href="/" aria-label="Facebook">
               <FaFacebook />

@@ -45,6 +45,7 @@
 - [📄 License](#-license)
 - [👥 Mentors](#-mentors)
 - [👤 Author](#-author)
+- [🙌 Thanks to Contributors](#-thanks-to-contributors)
 
 ---
 
@@ -153,6 +154,36 @@ Whether you're planning a weekend getaway or a month-long adventure, PackGo keep
 | **Leaflet / React-Leaflet** | 1.9 / 5 | Interactive maps                           |
 
 ### Backend
+
+## Backend Environment Setup
+
+Create a `.env` file inside the `server` directory before running the backend locally.
+
+Example:
+
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/travel-plan
+PORT=5000
+FRONTEND_URL=http://localhost:3000
+```
+
+Make sure MongoDB is running locally before starting the backend server.
+
+On macOS (Homebrew):
+
+```bash
+brew services start mongodb-community
+```
+
+Then start the backend:
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+Without a valid `MONGO_URI`, authentication-related endpoints such as forgot password may fail due to database connection timeouts.
 
 | Technology                 | Version | Purpose                               |
 | -------------------------- | ------- | ------------------------------------- |
@@ -278,7 +309,7 @@ cd Travel-Plans-
 >
 > Please install dependencies and run scripts separately inside the `client` and `server` directories.
 
-```bash
+````bash
 
 ### Important
 
@@ -290,7 +321,7 @@ Backend:
 cd server
 npm install
 npm run dev
-```
+````
 
 Frontend:
 
@@ -301,7 +332,6 @@ npm start
 ```
 
 Running commands from the wrong directory may result in missing files or package.json errors.
-
 
 ### ⚠️ Important
 
@@ -315,13 +345,16 @@ Install dependencies separately inside:
 Running commands from the root directory may result in missing script errors.
 
 # Install backend dependencies
+
 cd server
 npm install
 
 # Install frontend dependencies
+
 cd ../client
 npm install
-```
+
+````
 
 ### 3. Configure Environment Variables
 
@@ -330,7 +363,7 @@ Copy the example file and fill in your values:
 ```bash
 cp .env.example server/.env
 Copy-Item .env.example server\.env
-```
+````
 
 Open `server/.env` and update:
 
@@ -412,7 +445,6 @@ Could not read package.json
 ```
 
 Verify that you are running commands from the correct project directory (`server/` or `client/`).
-
 
 ## 📡 API Endpoints
 
@@ -688,7 +720,25 @@ We are incredibly grateful to our mentors for their valuable support and code re
 
 </div>
 
-/\*\*
+---
+
+## 🙌 Thanks to Contributors
+
+We sincerely thank all contributors who have helped improve PackGo
+
+Your efforts make this project better for everyone. ❤️
+
+<div align="center">
+
+<a href="https://github.com/hitesh-kumar123/Travel-Plans-/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=hitesh-kumar123/Travel-Plans-" alt="Contributors" />
+</a>
+
+</div>
+
+---
+
+
 
 ## ✨ README Improvement Notes
 

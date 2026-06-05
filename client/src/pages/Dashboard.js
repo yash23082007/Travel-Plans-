@@ -53,7 +53,8 @@ import TripDetail from "./dashboard/TripDetail";
 import PackingView from "./dashboard/PackingView";
 import CultureSafetyAlerts from "./dashboard/CultureSafetyAlerts";
 
-const drawerWidth = 280;
+const mobileDrawerWidth = 240;
+const desktopDrawerWidth = 280;
 
 const Dashboard = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -263,7 +264,7 @@ const Dashboard = () => {
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <Box
         component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+        sx={{ width: { md: desktopDrawerWidth }, flexShrink: { md: 0 } }}
       >
         <Drawer
           variant="temporary"
@@ -272,7 +273,10 @@ const Dashboard = () => {
           ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": { width: drawerWidth },
+            "& .MuiDrawer-paper": {
+              width: mobileDrawerWidth,
+              transition: "all 0.3s ease",
+            },
           }}
         >
           {drawer}
@@ -282,7 +286,7 @@ const Dashboard = () => {
           sx={{
             display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
-              width: drawerWidth,
+              width: desktopDrawerWidth,
               borderRight: "1px solid",
               borderColor: "divider",
               boxShadow: "2px 0 12px rgba(0,0,0,0.04)",
@@ -298,7 +302,10 @@ const Dashboard = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { md: `calc(100% - ${drawerWidth}px)` },
+          width: {
+            xs: "100%",
+            md: `calc(100% - ${desktopDrawerWidth}px)`,
+          },
           bgcolor: "grey.50",
         }}
       >
